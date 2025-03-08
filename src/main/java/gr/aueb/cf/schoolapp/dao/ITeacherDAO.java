@@ -9,7 +9,7 @@ public interface ITeacherDAO {
     // The 5 basic Services
     Teacher insert(Teacher teacher) throws TeacherDAOException;
     Teacher update(Teacher teacher) throws TeacherDAOException;
-    void delete(Teacher teacher) throws TeacherDAOException;
+    void delete(Integer id) throws TeacherDAOException;
     Teacher getById(Integer id) throws TeacherDAOException;
     List<Teacher> getAll() throws TeacherDAOException;
 
