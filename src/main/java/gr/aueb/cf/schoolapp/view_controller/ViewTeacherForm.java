@@ -290,78 +290,79 @@ public class ViewTeacherForm extends JFrame {
 	
 	// this method is to write the name of city in lblGetTeacherTown label
 		private List<City> fetchCitiesFromDB() {
-			String sql = "SELECT * FROM Cities";
-			List<City> cities = new ArrayList();
-			
-			Connection connection = Dashboard2.getConnection();
-			
-			try (PreparedStatement ps = connection.prepareStatement(sql)) {
-				ResultSet rs = ps.executeQuery();
-				
-				while(rs.next()) {
-					int id = rs.getInt("id");
-					String name = rs.getString("name");
-					
-					City city = new City(id, name);
-					cities.add(city);
-				} 
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			return cities; 
+//			String sql = "SELECT * FROM Cities";
+//			List<City> cities = new ArrayList();
+//
+//			Connection connection = Dashboard2.getConnection();
+//
+//			try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//				ResultSet rs = ps.executeQuery();
+//
+//				while(rs.next()) {
+//					int id = rs.getInt("id");
+//					String name = rs.getString("name");
+//
+//					City city = new City(id, name);
+//					cities.add(city);
+//				}
+//			} catch (SQLException e) {
+//				JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
+//			}
+//			return cities;
+			return null;
 		}
 		
 		/*Next method fill the LblGetFields with Teacher info*/
 		//private void fetchTeacherFromDatabase(int id) {
 		private void fetchTeacherFromDatabase(String uuid) {
 			//String sql = "SELECT * FROM Teachers WHERE id =?";
-			String sql = "SELECT * FROM Teachers WHERE uuid =?";
-			
-			Connection conn = Dashboard2.getConnection();
-			
-			try (PreparedStatement ps = conn.prepareStatement(sql)) {
-				//ps.setInt(1, id);
-				ps.setString(1, uuid);
-				ResultSet rs = ps.executeQuery();
-				
-				if (rs.next()) {
-					System.out.println(lblGetTeacherCode);
-					lblGetTeacherCode.setText(rs.getString("uuid"));
-					lblGetTeacherName.setText(rs.getString("firstname"));
-					lblGetTeacherSurname.setText(rs.getString("lastname"));
-					lsbGetTeacherFatherName.setText(rs.getString("fatherName"));
-					lblGetTeacherAFM.setText(rs.getString("vat"));
-					lblGetTeacherTelephone.setText(rs.getString("phone_num"));
-					lblGetTeacherEmail.setText(rs.getString("email"));
-					lblGetStreet.setText(rs.getString("street"));
-					lblGetStreetNumber.setText(rs.getString("street_num"));
-					lblGetTK.setText(rs.getString("zipcode"));
-					//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
-					
-					// !!! Here need attention how to pass the city name from the database
-					int cityIdFromDB = rs.getInt("city_id"); // First we get the id from the DB
-					// find the matching city using Stream options
-					City selectedCity = cities.stream().filter(city -> city.getId() == cityIdFromDB)
-							.findFirst().orElse(null); //Returns null if no match is found. This method functioned with this way, we need the else so or either
-					
-					
-					//Select the city in the JComboBox
-					if (selectedCity != null) {
-						lblGetTeacherTown.setText(selectedCity.getName());
-					} else {
-						lblGetTeacherTown.setText("null");
-					}
-					
-					//Below these 2 lines are for test purposes
-					//City selectedCity = (City) cityComboBox.getSelectedItem();
-					//int cityId = selectedCity.getId();
-				}
-				
-				
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);
-			}
+//			String sql = "SELECT * FROM Teachers WHERE uuid =?";
+//
+//			Connection conn = Dashboard2.getConnection();
+//
+//			try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//				//ps.setInt(1, id);
+//				ps.setString(1, uuid);
+//				ResultSet rs = ps.executeQuery();
+//
+//				if (rs.next()) {
+//					System.out.println(lblGetTeacherCode);
+//					lblGetTeacherCode.setText(rs.getString("uuid"));
+//					lblGetTeacherName.setText(rs.getString("firstname"));
+//					lblGetTeacherSurname.setText(rs.getString("lastname"));
+//					lsbGetTeacherFatherName.setText(rs.getString("fatherName"));
+//					lblGetTeacherAFM.setText(rs.getString("vat"));
+//					lblGetTeacherTelephone.setText(rs.getString("phone_num"));
+//					lblGetTeacherEmail.setText(rs.getString("email"));
+//					lblGetStreet.setText(rs.getString("street"));
+//					lblGetStreetNumber.setText(rs.getString("street_num"));
+//					lblGetTK.setText(rs.getString("zipcode"));
+//					//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
+//
+//					// !!! Here need attention how to pass the city name from the database
+//					int cityIdFromDB = rs.getInt("city_id"); // First we get the id from the DB
+//					// find the matching city using Stream options
+//					City selectedCity = cities.stream().filter(city -> city.getId() == cityIdFromDB)
+//							.findFirst().orElse(null); //Returns null if no match is found. This method functioned with this way, we need the else so or either
+//
+//
+//					//Select the city in the JComboBox
+//					if (selectedCity != null) {
+//						lblGetTeacherTown.setText(selectedCity.getName());
+//					} else {
+//						lblGetTeacherTown.setText("null");
+//					}
+//
+//					//Below these 2 lines are for test purposes
+//					//City selectedCity = (City) cityComboBox.getSelectedItem();
+//					//int cityId = selectedCity.getId();
+//				}
+//
+//
+//			} catch (SQLException e2) {
+//				e2.printStackTrace();
+//				JOptionPane.showMessageDialog(null, "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);
+//			}
 		}
 
 }

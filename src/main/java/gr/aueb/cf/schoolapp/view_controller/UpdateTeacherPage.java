@@ -381,52 +381,52 @@ public class UpdateTeacherPage extends JFrame {
 			int cityId = selectedCity.getId();	
 			String zipcode = textFieldTK.getText().trim();
 				// Validate
-			textFieldHName.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
-			textFieldHSurname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
-			textFieldAFM.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
-			textFieldEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");		
-			
-			//Return if any field is empty
-			if (selectedCity == null || firstname.equals("") || lastname.equals("") || vat.equals("") || email.equals("") ) {
-				JOptionPane.showMessageDialog(null, "Παρακαλώ συμπληρώστε όλα τα παιδία!", "Error", JOptionPane.ERROR_MESSAGE );
-				return;
-			}
-			
-			if (selectedCity != null && !firstname.isEmpty() && !lastname.isEmpty() && !vat.isEmpty() && !email.isEmpty()) {
-				// get the city id from the selected City object
-				
-				// update
-				String sql = "INSERT INTO Teachers ( firstname, lastname, vat, fatherName, phone_num, email, street, street_num, zipcode, city_id, uuid)"
-						+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				
-				Connection conn = Dashboard2.getConnection();
-				
-				try (PreparedStatement ps = conn.prepareStatement(sql)) {
-					ps.setString(1, firstname);
-					ps.setString(2, lastname);
-					ps.setString(3, vat);
-					ps.setString(4, fathername);
-					ps.setString(5, phoneNumber);
-					ps.setString(6, email);
-					ps.setString(7, street);
-					ps.setString(8, streetNumber);
-					ps.setString(9, zipcode);
-					ps.setInt(10, cityId);
-					
-					String uuid = UUID.randomUUID().toString();
-					ps.setString(11, uuid);
-					
-					int n = ps.executeUpdate();
-					
-					JOptionPane.showMessageDialog(null, n + "record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE );
-					} catch (SQLException e1) {
-					//e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "insertion error", "error", JOptionPane.ERROR_MESSAGE);
-				}
-				
-			} else {
-				JOptionPane.showMessageDialog(null,"Παρακαλώ συμπληρώστε όλα τα παιδία", "Error", JOptionPane.ERROR_MESSAGE); 
-			}		
+//			textFieldHName.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
+//			textFieldHSurname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
+//			textFieldAFM.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
+//			textFieldEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");
+//
+//			//Return if any field is empty
+//			if (selectedCity == null || firstname.equals("") || lastname.equals("") || vat.equals("") || email.equals("") ) {
+//				JOptionPane.showMessageDialog(null, "Παρακαλώ συμπληρώστε όλα τα παιδία!", "Error", JOptionPane.ERROR_MESSAGE );
+//				return;
+//			}
+//
+//			if (selectedCity != null && !firstname.isEmpty() && !lastname.isEmpty() && !vat.isEmpty() && !email.isEmpty()) {
+//				// get the city id from the selected City object
+//
+//				// update
+//				String sql = "INSERT INTO Teachers ( firstname, lastname, vat, fatherName, phone_num, email, street, street_num, zipcode, city_id, uuid)"
+//						+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//
+//				Connection conn = Dashboard2.getConnection();
+//
+//				try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//					ps.setString(1, firstname);
+//					ps.setString(2, lastname);
+//					ps.setString(3, vat);
+//					ps.setString(4, fathername);
+//					ps.setString(5, phoneNumber);
+//					ps.setString(6, email);
+//					ps.setString(7, street);
+//					ps.setString(8, streetNumber);
+//					ps.setString(9, zipcode);
+//					ps.setInt(10, cityId);
+//
+//					String uuid = UUID.randomUUID().toString();
+//					ps.setString(11, uuid);
+//
+//					int n = ps.executeUpdate();
+//
+//					JOptionPane.showMessageDialog(null, n + "record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE );
+//					} catch (SQLException e1) {
+//					//e1.printStackTrace();
+//					JOptionPane.showMessageDialog(null, "insertion error", "error", JOptionPane.ERROR_MESSAGE);
+//				}
+//
+//			} else {
+//				JOptionPane.showMessageDialog(null,"Παρακαλώ συμπληρώστε όλα τα παιδία", "Error", JOptionPane.ERROR_MESSAGE);
+//			}
 				
 			
 			}
@@ -445,75 +445,76 @@ public class UpdateTeacherPage extends JFrame {
 	
 	// this method is to load the JComboBox 
 	private List<City> fetchCitiesFromDB() {
-		String sql = "SELECT * FROM Cities";
-		List<City> cities = new ArrayList();
-		
-		Connection connection = Dashboard2.getConnection();
-		
-		try (PreparedStatement ps = connection.prepareStatement(sql)) {
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				
-				City city = new City(id, name);
-				cities.add(city);
-			} 
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return cities; 
+//		String sql = "SELECT * FROM Cities";
+//		List<City> cities = new ArrayList();
+//
+//		Connection connection = Dashboard2.getConnection();
+//
+//		try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//			ResultSet rs = ps.executeQuery();
+//
+//			while(rs.next()) {
+//				int id = rs.getInt("id");
+//				String name = rs.getString("name");
+//
+//				City city = new City(id, name);
+//				cities.add(city);
+//			}
+//		} catch (SQLException e) {
+//			JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+//		return cities;
+		return null;
 	}
 	
 	/*Next method fill the textfields with Teacher info*/
 	//private void fetchTeacherFromDatabase(int id) {
 	private void fetchTeacherFromDatabase(String id) {
 		//String sql = "SELECT * FROM Teachers WHERE id =?";
-		String sql = "SELECT * FROM Teachers WHERE uuid =?";
-		
-		Connection conn = Dashboard2.getConnection();
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-			//ps.setInt(1, id);
-			ps.setString(1, id);
-			ResultSet rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				textFieldName.setText(rs.getString("firstname"));
-				textFieldSurname.setText(rs.getString("lastname"));
-				textFieldFather.setText(rs.getString("fatherName"));
-				textFieldAFM.setText(rs.getString("vat"));
-				textFieldTelephone.setText(rs.getString("phone_num"));
-				textFieldEmail.setText(rs.getString("email"));
-				textFieldStreet.setText(rs.getString("street"));
-				textFieldNumber.setText(rs.getString("street_num"));
-				textFieldTK.setText(rs.getString("zipcode"));
-				//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
-				
-				// !!! Here need attention how to pass the city name from the database
-				int cityIdFromDB = rs.getInt("city_id"); // First we get the id from the DB
-				// find the matching city using Stream options
-				City selectedCity = cities.stream().filter(city -> city.getId() == cityIdFromDB)
-						.findFirst().orElse(null); //Returns null if no match is found. This method functioned with this way, we need the else so or either
-				
-				//Select the city in the JComboBox
-				if (selectedCity != null) {
-					cityComboBox.setSelectedItem(selectedCity);
-				} else {
-					cityComboBox.setSelectedIndex(0);
-				}
-				
-				//Below these 2 lines are for test purposes
-				//City selectedCity = (City) cityComboBox.getSelectedItem();
-				//int cityId = selectedCity.getId();
-			}
-			
-			
-		} catch (SQLException e2) {
-			//e2.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+//		String sql = "SELECT * FROM Teachers WHERE uuid =?";
+//
+//		Connection conn = Dashboard2.getConnection();
+//
+//		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//			//ps.setInt(1, id);
+//			ps.setString(1, id);
+//			ResultSet rs = ps.executeQuery();
+//
+//			if (rs.next()) {
+//				textFieldName.setText(rs.getString("firstname"));
+//				textFieldSurname.setText(rs.getString("lastname"));
+//				textFieldFather.setText(rs.getString("fatherName"));
+//				textFieldAFM.setText(rs.getString("vat"));
+//				textFieldTelephone.setText(rs.getString("phone_num"));
+//				textFieldEmail.setText(rs.getString("email"));
+//				textFieldStreet.setText(rs.getString("street"));
+//				textFieldNumber.setText(rs.getString("street_num"));
+//				textFieldTK.setText(rs.getString("zipcode"));
+//				//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
+//
+//				// !!! Here need attention how to pass the city name from the database
+//				int cityIdFromDB = rs.getInt("city_id"); // First we get the id from the DB
+//				// find the matching city using Stream options
+//				City selectedCity = cities.stream().filter(city -> city.getId() == cityIdFromDB)
+//						.findFirst().orElse(null); //Returns null if no match is found. This method functioned with this way, we need the else so or either
+//
+//				//Select the city in the JComboBox
+//				if (selectedCity != null) {
+//					cityComboBox.setSelectedItem(selectedCity);
+//				} else {
+//					cityComboBox.setSelectedIndex(0);
+//				}
+//
+//				//Below these 2 lines are for test purposes
+//				//City selectedCity = (City) cityComboBox.getSelectedItem();
+//				//int cityId = selectedCity.getId();
+//			}
+//
+//
+//		} catch (SQLException e2) {
+//			//e2.printStackTrace();
+//			JOptionPane.showMessageDialog(null, "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
 	}
 
 }

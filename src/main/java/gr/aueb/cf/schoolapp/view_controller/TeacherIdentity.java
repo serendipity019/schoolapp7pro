@@ -392,46 +392,46 @@ public class TeacherIdentity extends JFrame {
 			int cityId = selectedCity.getId();	
 			String zipcode = textFieldTK.getText().trim();
 				// Validate
-			textFieldHName.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
-			textFieldHSurname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
-			textFieldAFM.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
-			textFieldEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");		
-			
-			//Return if any field is empty
-			if (selectedCity == null || firstname.equals("") || lastname.equals("") || vat.equals("") || email.equals("") ) {
-				JOptionPane.showMessageDialog(null, "Παρακαλώ συμπληρώστε όλα τα παιδία!", "Error", JOptionPane.ERROR_MESSAGE );
-				return;
-			}
-			
-				// Insert
-			String sql = "INSERT INTO Teachers ( firstname, lastname, vat, fatherName, phone_num, email, street, street_num, zipcode, city_id, uuid)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			
-			//Connection conn = Dashboard2.getConnection(); //Because here we use DBUtil, put this inside the try
-			
-			try (Connection conn = DBUtil.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql)) {
-				ps.setString(1, firstname);
-				ps.setString(2, lastname);
-				ps.setString(3, vat);
-				ps.setString(4, fathername);
-				ps.setString(5, phoneNumber);
-				ps.setString(6, email);
-				ps.setString(7, street);
-				ps.setString(8, streetNumber);
-				ps.setString(9, zipcode);
-				ps.setInt(10, cityId);
-				
-				String uuid = UUID.randomUUID().toString();
-				ps.setString(11, uuid);
-				
-				int n = ps.executeUpdate();
-				
-				JOptionPane.showMessageDialog(null, n + "record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE );
-				} catch (SQLException e1) {
-				//e1.printStackTrace();
-				JOptionPane.showMessageDialog(null, "insertion error", "error", JOptionPane.ERROR_MESSAGE);
-			}
+//			textFieldHName.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
+//			textFieldHSurname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
+//			textFieldAFM.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
+//			textFieldEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");
+//
+//			//Return if any field is empty
+//			if (selectedCity == null || firstname.equals("") || lastname.equals("") || vat.equals("") || email.equals("") ) {
+//				JOptionPane.showMessageDialog(null, "Παρακαλώ συμπληρώστε όλα τα παιδία!", "Error", JOptionPane.ERROR_MESSAGE );
+//				return;
+//			}
+//
+//				// Insert
+//			String sql = "INSERT INTO Teachers ( firstname, lastname, vat, fatherName, phone_num, email, street, street_num, zipcode, city_id, uuid)"
+//					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//
+//			//Connection conn = Dashboard2.getConnection(); //Because here we use DBUtil, put this inside the try
+//
+//			try (Connection conn = DBUtil.getConnection();
+//				PreparedStatement ps = conn.prepareStatement(sql)) {
+//				ps.setString(1, firstname);
+//				ps.setString(2, lastname);
+//				ps.setString(3, vat);
+//				ps.setString(4, fathername);
+//				ps.setString(5, phoneNumber);
+//				ps.setString(6, email);
+//				ps.setString(7, street);
+//				ps.setString(8, streetNumber);
+//				ps.setString(9, zipcode);
+//				ps.setInt(10, cityId);
+//
+//				String uuid = UUID.randomUUID().toString();
+//				ps.setString(11, uuid);
+//
+//				int n = ps.executeUpdate();
+//
+//				JOptionPane.showMessageDialog(null, n + "record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE );
+//				} catch (SQLException e1) {
+//				//e1.printStackTrace();
+//				JOptionPane.showMessageDialog(null, "insertion error", "error", JOptionPane.ERROR_MESSAGE);
+//			}
 			
 			}
 		});
@@ -446,24 +446,26 @@ public class TeacherIdentity extends JFrame {
 	}
 	
 	private List<City> fetchCitiesFromDB() {
-		String sql = "SELECT * FROM Cities";
-		List<City> cities = new ArrayList();
-		
-		Connection connection = Dashboard2.getConnection();
-		
-		try (PreparedStatement ps = connection.prepareStatement(sql)) {
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				
-				City city = new City(id, name);
-				cities.add(city);
-			} 
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return cities; 
+//		String sql = "SELECT * FROM Cities";
+//		List<City> cities = new ArrayList();
+//
+//		//Connection connection = Dashboard2.getConnection();
+//
+//		try (Connection connection = DBUtil.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql)) {
+//			ResultSet rs = ps.executeQuery();
+//
+//			while(rs.next()) {
+//				int id = rs.getInt("id");
+//				String name = rs.getString("name");
+//
+//				City city = new City(id, name);
+//				cities.add(city);
+//			}
+//		} catch (SQLException e) {
+//			JOptionPane.showMessageDialog(null,"Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+//		return cities;
+		return null;
 	}
 }
