@@ -1,6 +1,7 @@
 package gr.aueb.cf.schoolapp.view_controller;
 
 import gr.aueb.cf.schoolapp.Main;
+import gr.aueb.cf.schoolapp.authedication.AuthedicationManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -74,7 +75,8 @@ public class ConnectionPage extends JFrame {
 		JButton btnConnect2 = new JButton("Σύνδεση");
 		btnConnect2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if ((textFieldUser.getText().matches("[aA]dmin")) && (Arrays.equals(passwordField.getPassword(), "12345".toCharArray() ))) {
+				//if ((textFieldUser.getText().matches("[aA]dmin")) && (Arrays.equals(passwordField.getPassword(), "12345".toCharArray() ))) {
+				if (AuthedicationManager.authedicate(textFieldUser.getText(), passwordField.getPassword() )) {
 					Main.getConnectionPage().setVisible(false);
 					Main.getDashboard().setVisible(true);
 				} else {
