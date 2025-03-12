@@ -13,8 +13,21 @@ import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import gr.aueb.cf.schoolapp.Main;
+import gr.aueb.cf.schoolapp.dao.CityDAOImpl;
+import gr.aueb.cf.schoolapp.dao.ICityDAO;
+import gr.aueb.cf.schoolapp.dao.ITeacherDAO;
+import gr.aueb.cf.schoolapp.dao.TeacherDAOImpl;
+import gr.aueb.cf.schoolapp.dao.exceptions.TeacherDAOException;
+import gr.aueb.cf.schoolapp.dto.TeacherInsertDTO;
+import gr.aueb.cf.schoolapp.dto.TeacherReadOnlyDTO;
+import gr.aueb.cf.schoolapp.exceptions.TeacherAlreadyExistsException;
 import gr.aueb.cf.schoolapp.model.City;
+import gr.aueb.cf.schoolapp.service.CitySetviceImpl;
+import gr.aueb.cf.schoolapp.service.ICityService;
+import gr.aueb.cf.schoolapp.service.ITeacherService;
+import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 import gr.aueb.cf.schoolapp.util.DBUtil;
+import gr.aueb.cf.schoolapp.validator.TeacherValidator;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -33,6 +46,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class TeacherIdentity extends JFrame {
@@ -60,6 +74,11 @@ public class TeacherIdentity extends JFrame {
 	private JComboBox<City> cityComboBox;
 	private List<City> cities = new ArrayList<>();
 
+	private final ITeacherDAO teacherDAO = new TeacherDAOImpl();
+	private final ITeacherService teacherService = new TeacherServiceImpl(teacherDAO);
+
+	private final ICityDAO cityDAO = new CityDAOImpl();
+	private final ICityService cityService = new CitySetviceImpl(cityDAO);
 
 	/**
 	 * Create the frame.
@@ -68,29 +87,39 @@ public class TeacherIdentity extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				cities = fetchCitiesFromDB();
-				cities.forEach(city -> cityComboBox.addItem(city));	
-				
-				textFieldName.setText("");
-				textFieldSurname.setText("");
-				textFieldFather.setText("");
-				textFieldAFM.setText("");
-				textFieldTelephone.setText("");
-				textFieldEmail.setText("");
-				textFieldStreet.setText("");
-				textFieldNumber.setText("");
-				cityComboBox.setSelectedIndex(0);
-				textFieldTK.setText("");
-				//Error fields
-				textFieldHName.setText("");
-				textFieldHSurname.setText("");
-				textFieldHFather.setText("");
-				textFieldHAFM.setText("");
-				textFieldHTelephone.setText("");
-				textFieldHEmail.setText("");
-				textFieldHStreet.setText("");
-				textFieldHNumb.setText("");
-				textFieldHTK.setText("");
+
+				try {
+					cityService.getAllCities().forEach(cityComboBox::addItem);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null,
+							"Get cities fatal error" + ex.getMessage(),
+							"error", JOptionPane.ERROR_MESSAGE);
+				}
+
+				/*All these now don't need */
+//				cities = fetchCitiesFromDB();
+//				cities.forEach(city -> cityComboBox.addItem(city));
+//
+//				textFieldName.setText("");
+//				textFieldSurname.setText("");
+//				textFieldFather.setText("");
+//				textFieldAFM.setText("");
+//				textFieldTelephone.setText("");
+//				textFieldEmail.setText("");
+//				textFieldStreet.setText("");
+//				textFieldNumber.setText("");
+//				cityComboBox.setSelectedIndex(0);
+//				textFieldTK.setText("");
+//				//Error fields
+//				textFieldHName.setText("");
+//				textFieldHSurname.setText("");
+//				textFieldHFather.setText("");
+//				textFieldHAFM.setText("");
+//				textFieldHTelephone.setText("");
+//				textFieldHEmail.setText("");
+//				textFieldHStreet.setText("");
+//				textFieldHNumb.setText("");
+//				textFieldHTK.setText("");
 				
 			}
 		});
@@ -239,7 +268,7 @@ public class TeacherIdentity extends JFrame {
 				String inputStreet;
 				inputStreet = textFieldStreet.getText().trim();
 				
-				textFieldHStreet.setText(inputStreet.equals("") ? "Η διεύθηνση είναι υποχρεωτική" : "");
+				textFieldHStreet.setText(inputStreet.equals("") ? "Η διεύθυνση είναι υποχρεωτική" : "");
 			}
 		});
 		
@@ -380,18 +409,31 @@ public class TeacherIdentity extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Data Biding
-			String firstname = textFieldName.getText().trim();
-			String lastname = textFieldSurname.getText().trim();
-			String fathername = textFieldFather.getText().trim();
-			String vat = textFieldAFM.getText().trim();
-			String phoneNumber = textFieldTelephone.getText().trim();
-			String email = 	textFieldEmail.getText().trim();
-			String street = textFieldStreet.getText().trim();
-			String streetNumber =textFieldNumber.getText().trim();
-			City selectedCity = (City) cityComboBox.getSelectedItem();
-			int cityId = selectedCity.getId();	
-			String zipcode = textFieldTK.getText().trim();
+				TeacherInsertDTO insertDTO = doDataBiding();
+
+
 				// Validate
+				Map<String, String> errors = TeacherValidator.validate(insertDTO);
+				if (!errors.isEmpty()) {
+					textFieldHName.setText(errors.getOrDefault("firstname", ""));
+					textFieldHSurname.setText(errors.getOrDefault("lastname", ""));
+					textFieldAFM.setText(errors.getOrDefault("vat", ""));
+					textFieldEmail.setText(errors.getOrDefault("email", ""));
+					return; //because if exists errors we don't want to run forward.
+				}
+
+				TeacherReadOnlyDTO teacherReadOnlyDTO;
+				try {
+					teacherReadOnlyDTO = teacherService.insertTeacher(insertDTO);
+					JOptionPane.showMessageDialog(null,
+							"Teacher with uuid: " + teacherReadOnlyDTO.getUuid(), "Insert",
+							JOptionPane.INFORMATION_MESSAGE);
+					//todo form instead of message dialog
+				} catch (TeacherDAOException | TeacherAlreadyExistsException ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error. " + ex.getMessage(), "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 //			textFieldHName.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
 //			textFieldHSurname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
 //			textFieldAFM.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
@@ -467,5 +509,24 @@ public class TeacherIdentity extends JFrame {
 //		}
 //		return cities;
 		return null;
+	}
+
+	private TeacherInsertDTO doDataBiding() {
+		final int DEFAULT_CITY_ID = 1;
+
+		String firstname = textFieldName.getText().trim();
+		String lastname = textFieldSurname.getText().trim();
+		String fathername = textFieldFather.getText().trim();
+		String vat = textFieldAFM.getText().trim();
+		String phoneNumber = textFieldTelephone.getText().trim();
+		String email = 	textFieldEmail.getText().trim();
+		String street = textFieldStreet.getText().trim();
+		String streetNumber =textFieldNumber.getText().trim();
+		City selectedCity = (City) cityComboBox.getSelectedItem();
+		int cityId = (selectedCity != null) ? selectedCity.getId() : DEFAULT_CITY_ID;
+		String zipcode = textFieldTK.getText().trim();
+
+		return new TeacherInsertDTO(firstname, lastname, vat, fathername, phoneNumber, email, street,
+				streetNumber, zipcode, cityId);
 	}
 }
