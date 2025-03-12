@@ -104,7 +104,7 @@ public class TeacherServiceImpl implements ITeacherService {
             teacher = teacherDAO.getById(id);
 
             return Mapper.mapTeacherToReadOnlyDTO(teacher)
-                    .orElseThrow(() -> new TeacherNotFoundException("Teacher with id: " + id + " not found"))
+                    .orElseThrow(() -> new TeacherNotFoundException("Teacher with id: " + id + " not found"));
         } catch (TeacherDAOException | TeacherNotFoundException e) {
             e.printStackTrace();
             throw e;
