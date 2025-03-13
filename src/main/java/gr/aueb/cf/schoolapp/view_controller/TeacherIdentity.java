@@ -408,8 +408,11 @@ public class TeacherIdentity extends JFrame {
 		JButton btnSubmit = new JButton("Υποβολή");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TeacherInsertDTO insertDTO;
+				TeacherReadOnlyDTO teacherReadOnlyDTO;
+
 				// Data Biding
-				TeacherInsertDTO insertDTO = doDataBiding();
+				 insertDTO = doDataBiding();
 
 
 				// Validate
@@ -422,7 +425,7 @@ public class TeacherIdentity extends JFrame {
 					return; //because if exists errors we don't want to run forward.
 				}
 
-				TeacherReadOnlyDTO teacherReadOnlyDTO;
+
 				try {
 					teacherReadOnlyDTO = teacherService.insertTeacher(insertDTO);
 					JOptionPane.showMessageDialog(null,
